@@ -1,0 +1,5 @@
+En chrome:
+    chrome://inspect/#devices
+
+En consola:
+    node --inspect-brk app.js
