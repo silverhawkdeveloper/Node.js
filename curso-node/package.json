@@ -1,0 +1,20 @@
+{
+  "name": "curso-node",
+  "version": "1.0.0",
+  "description": "NodeJS\r https://nodejs.org/docs/latest/api/",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Daniel Díaz González",
+  "license": "ISC",
+  "dependencies": {
+    "picocolors": "^1.0.1"
+  },
+  "devDependencies": {
+    "standard": "^17.1.0"
+  },
+  "eslintConfig": {
+    "extends": "standard"
+  }
+}
