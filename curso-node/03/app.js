@@ -1,7 +1,7 @@
 const express = require('express')
 const crypto = require('node:crypto') // Creación de ID
 const movies = require('./movies.json')
-const { validacionMovies } = require('./schemas/movies-schemas')
+const { validacionMovies, validacionParcialMovies } = require('./schemas/movies-schemas')
 
 // REST API -> Arquitectura de software
 
@@ -25,7 +25,7 @@ app.get('/movies', (req, res) => {
 // Recuperar una pelicula por id
 app.get('/movies/:id', (req, res) => {
   const { id } = req.params
-  const movie = movies.find(movies => movies.id === id)
+  const movie = movies.find(movie => movie.id === id)
   if (movie) {
     return res.status(200).json(movie)
   } else {
@@ -36,7 +36,6 @@ app.get('/movies/:id', (req, res) => {
 // Crear una película
 app.post('/movies', (req, res) => {
   const resultado = validacionMovies(req.body)
-  console.log(resultado)
   if (resultado.error) {
     return res.status(400).json({ error: JSON.parse(resultado.error.message) })
   }
@@ -47,6 +46,28 @@ app.post('/movies', (req, res) => {
   }
   movies.push(newMovies)
   res.status(201).json(newMovies)
+})
+
+// Actualizar una película
+app.patch('/movies/:id', (req, res) => {
+  const resultado = validacionParcialMovies(req.body)
+  if (!resultado.success) {
+    return res.status(400).json({ error: JSON.parse(resultado.error.message) })
+  }
+
+  const { id } = req.params
+  const movieIndex = movies.findIndex(movie => movie.id === id)
+  if (movieIndex === -1) {
+    return res.status(404).json({ message: 'Movie not found' })
+  }
+
+  const updateMovie = {
+    ...movies[movieIndex],
+    ...resultado.data
+  }
+  movies[movieIndex] = updateMovie
+
+  return res.json(updateMovie)
 })
 
 app.listen(puertoDeseado, () => {

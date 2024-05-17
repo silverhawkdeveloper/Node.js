@@ -14,17 +14,21 @@ const movieSchema = z.object({
     message: 'El póster debe ser una URL válida.'
   }),
   genre: z.array(
-    z.enum([['Action', 'Adventure', 'Crime', 'Comedy', 'Drama', 'Fantasy', 'Horror', 'Thriller', 'Sci-Fi']]),
+    z.enum(['Action', 'Adventure', 'Crime', 'Comedy', 'Drama', 'Fantasy', 'Horror', 'Thriller', 'Sci-Fi']),
     {
       required_error: 'Se requiere el género de la película.',
       invalid_type_error: 'El género de la película debe ser un Array de enum Genre'
     }
   ),
-  rate: z.number().min(0).max(10)
+  rate: z.number().min(0).max(10).default(3)
 })
 
 function validacionMovies (object) {
   return movieSchema.safeParse(object)
 }
 
-module.exports = { validacionMovies }
+function validacionParcialMovies (object) {
+  return movieSchema.partial().safeParse(object)
+}
+
+module.exports = { validacionMovies, validacionParcialMovies }
