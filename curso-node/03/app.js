@@ -1,5 +1,7 @@
 const express = require('express')
 const crypto = require('node:crypto') // Creación de ID
+const cors = require('cors')
+
 const movies = require('./movies.json')
 const { validacionMovies, validacionParcialMovies } = require('./schemas/movies-schemas')
 
@@ -9,6 +11,24 @@ const puertoDeseado = process.env.PORT ?? 3000
 const app = express()
 app.use(express.json())
 app.disable('x-powered-by')
+app.use(cors({
+  origin: (origin, callback) => {
+    const ACCEPTED_ORIGINS = [
+      'http://localhost:8080',
+      'http://localhost:3000'
+    ]
+
+    if (ACCEPTED_ORIGINS.includes(origin)) {
+      return callback(null, true)
+    }
+
+    if (!origin) {
+      return callback(null, true)
+    }
+
+    return callback(new Error('Not allowed by CORS'))
+  }
+}))
 
 // Recuperar todas las peliculas o todas las peliculas de un genero
 app.get('/movies', (req, res) => {
@@ -68,6 +88,19 @@ app.patch('/movies/:id', (req, res) => {
   movies[movieIndex] = updateMovie
 
   return res.json(updateMovie)
+})
+
+// Borrar una película
+app.delete('/movies/:id', (req, res) => {
+  const { id } = req.params
+  const movieIndex = movies.findIndex(movie => movie.id === id)
+  if (movieIndex === -1) {
+    return res.status(404).json({ message: 'Movie not found' })
+  }
+
+  movies.splice(movieIndex, 1)
+
+  return res.json({ message: 'Película eliminada' })
 })
 
 app.listen(puertoDeseado, () => {
