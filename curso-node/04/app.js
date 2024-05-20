@@ -7,6 +7,7 @@ import { validacionMovies, validacionParcialMovies } from './schemas/movies-sche
 // Lectura json ESModules
 // import fs from 'node:fs'
 // const movies = JSON.parse(fs.readFileSync('./movies.json', 'utf-8'))
+// En el futuro import movies from './movies.json' with { types: 'json' }
 
 // REST API -> Arquitectura de software
 
