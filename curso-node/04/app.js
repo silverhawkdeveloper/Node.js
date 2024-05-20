@@ -1,15 +1,21 @@
 import express from 'express'
 import crypto from 'node:crypto'
 import cors from 'cors'
-import fs from 'node:fs'
+import { createRequire } from 'node:module'
 import { validacionMovies, validacionParcialMovies } from './schemas/movies-schemas.js'
 
-const movies = JSON.parse(fs.readFileSync('./movies.json', 'utf-8')) // require('./movies.json')
+// Lectura json ESModules
+// import fs from 'node:fs'
+// const movies = JSON.parse(fs.readFileSync('./movies.json', 'utf-8'))
 
 // REST API -> Arquitectura de software
 
 const puertoDeseado = process.env.PORT ?? 3000
 const app = express()
+// Lectura json recomendada
+const require = createRequire(import.meta.url)
+const movies = require('./movies.json')
+
 app.use(express.json())
 app.disable('x-powered-by')
 app.use(cors({
