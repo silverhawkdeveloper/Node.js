@@ -1,4 +1,4 @@
-import { MovieModel } from '../modelo/movie.js'
+import { MovieModel } from '../modelo/local/movie.js'
 import { validacionMovies, validacionParcialMovies } from '../schemas/movies-schemas.js'
 
 export class MovieController {
@@ -23,7 +23,6 @@ export class MovieController {
     if (resultado.error) {
       return res.status(400).json({ error: JSON.parse(resultado.error.message) })
     }
-    console.log(resultado)
     const newMovies = await MovieModel.createMovie({ input: resultado.data })
     res.status(201).json(newMovies)
   }
