@@ -44,7 +44,11 @@ export class MovieModel {
 
   static async deleteMovie ({ id }) {
     const movieIndex = movies.findIndex(movie => movie.id === id)
-    if (movieIndex) { movies.splice(movieIndex, 1); return true }
-    return false
+    if (movieIndex !== -1) {
+      movies.splice(movieIndex, 1)
+      return true
+    } else {
+      return false
+    }
   }
 }

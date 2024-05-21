@@ -44,8 +44,8 @@ export class MovieController {
 
   static async deleteMovie (req, res) {
     const { id } = req.params
-    const respuesta = await MovieModel.deleteMovie({ id })
-    if (respuesta) {
+    const resultado = await MovieModel.deleteMovie({ id })
+    if (resultado) {
       return res.json({ message: 'Película eliminada' })
     } else {
       return res.status(404).json({ message: 'Movie not found' })
