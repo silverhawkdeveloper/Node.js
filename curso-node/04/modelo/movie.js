@@ -23,20 +23,20 @@ export class MovieModel {
     return movie
   }
 
-  static async createMovie ({ movie }) {
+  static async createMovie ({ input }) {
     const newMovies = {
       id: crypto.randomUUID(),
-      ...movie.data
+      ...input
     }
     movies.push(newMovies)
     return newMovies
   }
 
-  static async updateMovie ({ id, resultado }) {
+  static async updateMovie ({ id, input }) {
     const movieIndex = movies.findIndex(movie => movie.id === id)
     const updateMovie = {
       ...movies[movieIndex],
-      ...resultado.data
+      ...input
     }
     movies[movieIndex] = updateMovie
     return updateMovie

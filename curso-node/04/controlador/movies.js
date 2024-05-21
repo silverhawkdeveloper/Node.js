@@ -23,7 +23,8 @@ export class MovieController {
     if (resultado.error) {
       return res.status(400).json({ error: JSON.parse(resultado.error.message) })
     }
-    const newMovies = await MovieModel.createMovie({ resultado })
+    console.log(resultado)
+    const newMovies = await MovieModel.createMovie({ input: resultado.data })
     res.status(201).json(newMovies)
   }
 
@@ -34,7 +35,7 @@ export class MovieController {
     }
 
     const { id } = req.params
-    const updateMovie = await MovieModel.updateMovie({ id, resultado })
+    const updateMovie = await MovieModel.updateMovie({ id, input: resultado.data })
     if (updateMovie.id === -1) {
       return res.status(404).json({ message: 'Película no encontrada' })
     }
