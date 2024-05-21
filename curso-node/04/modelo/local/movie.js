@@ -1,4 +1,4 @@
-import { lecturaJSON } from '../utils.js'
+import { lecturaJSON } from '../../utils.js'
 import crypto from 'node:crypto'
 
 // Lectura json ESModules
